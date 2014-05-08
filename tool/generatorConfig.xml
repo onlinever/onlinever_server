@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+	<!-- classPathEntry:数据库的JDBC驱动,换成你自己的驱动位置 -->
+	<classPathEntry location="../WebRoot/WEB-INF/lib/mysql-connector-java-5.1.18.jar" />
+	<context id="MBG" targetRuntime="MyBatis3" defaultModelType="conditional">
+		<!-- 
+		<plugin type="plugin.SelectByPagePlugin" /> 
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+		-->
+		<!--
+		<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
+
+		<plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">
+			<property name="fileName" value="GeneratedMapperConfig.xml" />
+			<property name="targetPackage" value="com.cy.mybatis.mbg.util" />
+			<property name="targetProject" value="../workspace/schain/src}" />
+		</plugin>
+		-->
+
+		<commentGenerator>
+		 <!-- 去除自动生成的注释 -->
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+ 
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&amp;characterEncoding=UTF-8" userId="root" password="root"></jdbcConnection>
+			
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+ 		<!-- targetProject:自动生成代码的位置 -->
+		<javaModelGenerator targetPackage="com.onlinever.usercenter.model" targetProject="../src">
+			<property name="enableSubPackages" value="true" />
+		</javaModelGenerator>
+
+		<sqlMapGenerator targetPackage="com.onlinever.usercenter.dao.impl" targetProject="../src">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.onlinever.usercenter.dao" targetProject="../src">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+		<!-- 
+			tableName为对应的数据库表, 
+			domainObjectName是要生成的实体类, 
+			如果想要mapper配置文件加入sql的where条件查询, 可以将enableCountByExample等设为true, 这样就会生成一个对应domainObjectName的Example类, 
+			enableCountByExample等设为false时, 就不会生成对应的Example类了.
+		-->
+		
+		<table tableName="user" domainObjectName="User" 
+			enableCountByExample="false" 
+			enableUpdateByExample="false" 
+			enableDeleteByExample="false" 
+			enableSelectByExample="false" 
+			selectByExampleQueryId="false">
+			<generatedKey column="ID" sqlStatement="MYSQL" identity="true" />
+		</table>
+	</context>
+</generatorConfiguration>
