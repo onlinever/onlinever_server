@@ -63,7 +63,7 @@
        		<mvc:mapping path="/pay_result/**/*.htm" />
        		<mvc:mapping path="/pay/**/*.htm" />
        		<mvc:mapping path="/pay/*.htm" />
-       		<bean class="com.jia.order.interceptor.ControllerInterceptor" />
+       		<bean class="com.onlinever.commons.interceptor.ControllerInterceptor" />
         </mvc:interceptor>
 	</mvc:interceptors>	
 	
