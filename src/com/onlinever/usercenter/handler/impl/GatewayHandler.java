@@ -17,7 +17,7 @@ public class GatewayHandler implements IGatewayHandler{
 	@Override
 	public NormalReturn saveApplication(HttpServletRequest request,
 			HttpServletResponse response) {
-		log.info("saveApplication......");
+		log.error("saveApplication......");
 		return null;
 	}
 }

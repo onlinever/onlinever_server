@@ -12,18 +12,19 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
- * 状态码信息工具类
- * @copyright(c) Qeeka 2013
- * @author dongrui
- * @date 2013-8-14
- * @version 2.0
+ * 状态码工具类
+ * @author Demon
+ * 
+ * @copyright (c) onlinever.com 2014
  */
 public class ReadPropertiesUtil {
 	
 	private static Logger log = Logger.getLogger(ReadPropertiesUtil.class);
 	
-	private static String resource = "classpath:com/onlinever/commons/property/status_code.properties";
+	private static String resource = "classpath:status_code.properties";
 	
 	private static Map<String,String> configMap = new HashMap<String,String>();
 	
@@ -56,6 +57,11 @@ public class ReadPropertiesUtil {
 	}
 	
 	public static void main(String[] args){
-		
+		String content="{\"brand_no\":\"jycy,sy\",\"unit_rank\":\"2\",\"package\":\"2\"}";
+		JSONObject json = JSONObject.parseObject(content);
+		@SuppressWarnings("unchecked")
+		Map<String,Object> map = JSONObject.toJavaObject(json, HashMap.class);
+		System.out.println(map.get("brand_no"));
+		System.out.println(json.get("brand_no"));
 	}
 }

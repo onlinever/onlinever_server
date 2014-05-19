@@ -9,7 +9,7 @@
   </context-param>
   <context-param>
     <param-name>log4jConfigLocation</param-name>
-    <param-value>classpath:/com/onlinever/commons/property/log4j.properties</param-value>
+    <param-value>classpath:log4j.properties</param-value>
   </context-param>
   <listener>
     <listener-class>com.onlinever.commons.content.ServiceChainContextLoader</listener-class>
