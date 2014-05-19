@@ -35,7 +35,7 @@ import sun.misc.BASE64Encoder;
  */
 public class Utilities
 {
-	public static final String INPUT_JSON_KEY = "ORDER_JSON";
+	public static final String INPUT_JSON_KEY = "INPUT_JSON";
 	public static final String PAYMENT_KEY = "payment_";
 	private static final String KEY_ALGORITHM = "RSA";
 	private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
