@@ -1,0 +1,13 @@
+<div class="page">
+	#if($page.hasPrev())
+	<a href="${page.method}pageNum=$page.getPrevPage()$!{page.queryString}">&lt;上一页</a>
+	#else
+	<span class="page_no">&lt;上一页</span>
+	#end
+	<span class="pg_num">$!page.getCurrPage()/$!page.getTotalPage()</span>
+	#if($page.hasNext())
+	<a class="next" href="${page.method}pageNum=$page.getNextPage()$!{page.queryString}">下一页</a>
+	#else
+	<span class="page_no">下一页</span>
+	#end	
+</div>

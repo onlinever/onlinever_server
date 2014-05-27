@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.onlinever.usercenter.dao.ReferenceMapper" >
+  <resultMap id="BaseResultMap" type="com.onlinever.usercenter.model.Reference" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="data_element_name" property="dataElementName" jdbcType="VARCHAR" />
+    <result column="data_element_value" property="dataElementValue" jdbcType="SMALLINT" />
+    <result column="add_time" property="addTime" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, category, data_element_name, data_element_value, add_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from reference
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from reference
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.onlinever.usercenter.model.Reference" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into reference (category, data_element_name, data_element_value, 
+      add_time, update_time)
+    values (#{category,jdbcType=VARCHAR}, #{dataElementName,jdbcType=VARCHAR}, #{dataElementValue,jdbcType=SMALLINT}, 
+      #{addTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.onlinever.usercenter.model.Reference" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into reference
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="dataElementName != null" >
+        data_element_name,
+      </if>
+      <if test="dataElementValue != null" >
+        data_element_value,
+      </if>
+      <if test="addTime != null" >
+        add_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="dataElementName != null" >
+        #{dataElementName,jdbcType=VARCHAR},
+      </if>
+      <if test="dataElementValue != null" >
+        #{dataElementValue,jdbcType=SMALLINT},
+      </if>
+      <if test="addTime != null" >
+        #{addTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.onlinever.usercenter.model.Reference" >
+    update reference
+    <set >
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="dataElementName != null" >
+        data_element_name = #{dataElementName,jdbcType=VARCHAR},
+      </if>
+      <if test="dataElementValue != null" >
+        data_element_value = #{dataElementValue,jdbcType=SMALLINT},
+      </if>
+      <if test="addTime != null" >
+        add_time = #{addTime,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.onlinever.usercenter.model.Reference" >
+    update reference
+    set category = #{category,jdbcType=VARCHAR},
+      data_element_name = #{dataElementName,jdbcType=VARCHAR},
+      data_element_value = #{dataElementValue,jdbcType=SMALLINT},
+      add_time = #{addTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
