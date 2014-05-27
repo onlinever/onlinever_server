@@ -1,0 +1,62 @@
+<div class="page">
+		
+	#if($page.hasPrev())
+	<a href="${page.method}pageNum=$page.getPrevPage()$!{page.queryString}">&lt;上一页</a>
+	#else
+	<span class="page_no">&lt;上一页</span>
+	#end
+	
+    #if($page.getTotalPage() >= 6 and $page.getCurrPage() >=4 )  
+		<a href="${page.method}pageNum=1$!{page.queryString}">1</a>
+		#if($page.getCurrPage() >=5)
+			<span class="elps">...</span>
+		#end
+	#end
+		
+	#foreach( $pageNum in $page.getPageNumList())
+		#if( $pageNum == $page.getCurrPage())
+		<span class="pg_cur">$pageNum</span>
+		#else
+		<a href="${page.method}pageNum=${pageNum}$!{page.queryString}">$pageNum</a>
+		#end
+	#end
+	
+	 #if($page.getTotalPage() >= 6 and $page.getCurrPage() != $page.getTotalPage() )
+		#if(($page.getTotalPage() - $page.getCurrPage()) >3)
+			<span class="elps">...</span>
+		#end
+		#if(($page.getTotalPage() - $page.getCurrPage()) >2)
+			<a href="${page.method}pageNum=$!page.getTotalPage()$!{page.queryString}">$!page.getTotalPage()</a>
+		#end
+	 #end
+	 
+	#if($page.hasNext())
+	<a class="next" href="${page.method}pageNum=$page.getNextPage()$!{page.queryString}">下一页</a>
+	#else
+	<span class="page_no">下一页</span>
+	#end
+    <p class="pg_skip"> 到第 <input size="5" id="jumpNum" class="pg_jump" onkeyup="jumpChange(this, $!page.getTotalPage())" type="text"> 页 <button class="confirm" onclick="pgJump()" >确定</button></p>
+	
+    </div>
+
+	<script type="text/javascript">
+	function pgJump(){
+		var jumpNumObj = document.getElementById('jumpNum');
+		var jumpNum = jumpNumObj.value;
+		if(jumpNum != ""){
+			window.location.href = "${page.method}pageNum=" + jumpNum + "$!{page.queryString}";
+		}
+	}
+	function jumpChange(obj, maxNum){
+		if(/[^\d]/.test(obj.value)){
+			alert("只能输入数字");
+			obj.value = "";
+		}else if(obj.value <= 0 || obj.value > maxNum){
+			maxNum += 1;
+			alert("输入的数字必须大于0且小于" + maxNum + "！");
+			obj.value = "";
+		}else if(obj.value <= 0 && obj.value > maxNum){
+			obj.value = parseInt(obj.value, 10);
+		}
+	}
+	</script>

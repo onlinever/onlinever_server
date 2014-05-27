@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.0.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+            http://www.springframework.org/schema/aop
+            http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!-- 读取配置文件     -->
+	<import resource="propertyFileConfigurer.xml" />
+
+	<bean id="connectionManagerParams" class="org.apache.commons.httpclient.params.HttpConnectionManagerParams">
+		<property name="connectionTimeout" value="5000" />
+		<property name="soTimeout" value="5000" />
+		<property name="maxTotalConnections" value="1024" />
+		<property name="defaultMaxConnectionsPerHost" value="100" />
+	</bean>
+	<bean id="connectionManager" class="org.apache.commons.httpclient.MultiThreadedHttpConnectionManager">
+		<property name="params" ref="connectionManagerParams" />
+	</bean>
+
+	<bean id="httpClient" class="org.apache.commons.httpclient.HttpClient">
+		<constructor-arg>
+			<ref bean="connectionManager" />
+		</constructor-arg>
+	</bean>
+	
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="resourceLoaderPath" value="/WEB-INF/view"/>
+		<property name="velocityProperties">
+			<props>
+				<prop key="velocimacro.library"></prop>
+                <prop key="default.contentType">text/html; charset=utf-8</prop>
+                <prop key="output.encoding">utf-8</prop>
+                <prop key="input.encoding">utf-8</prop>				
+			</props>
+		</property>                 
+    </bean>
+    <bean id="templateEngine" class="com.onlinever.commons.util.TemplateEngine">
+        <property name="velocityEngine" ref="velocityEngine"/>        
+    </bean>
+</beans>
