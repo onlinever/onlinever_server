@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.onlinever.usercenter.dao.CityregionMapper" >
+  <resultMap id="BaseResultMap" type="com.onlinever.usercenter.model.Cityregion" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="parent_id" property="parentId" jdbcType="INTEGER" />
+    <result column="path" property="path" jdbcType="VARCHAR" />
+    <result column="deep" property="deep" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="last_modify_time" property="lastModifyTime" jdbcType="TIMESTAMP" />
+    <result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, parent_id, path, deep, name, city_id, last_modify_time, pinyin
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cityregion
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from cityregion
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.onlinever.usercenter.model.Cityregion" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cityregion (parent_id, path, deep, 
+      name, city_id, last_modify_time, 
+      pinyin)
+    values (#{parentId,jdbcType=INTEGER}, #{path,jdbcType=VARCHAR}, #{deep,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{lastModifyTime,jdbcType=TIMESTAMP}, 
+      #{pinyin,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.onlinever.usercenter.model.Cityregion" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into cityregion
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="path != null" >
+        path,
+      </if>
+      <if test="deep != null" >
+        deep,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time,
+      </if>
+      <if test="pinyin != null" >
+        pinyin,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="path != null" >
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="deep != null" >
+        #{deep,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifyTime != null" >
+        #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pinyin != null" >
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.onlinever.usercenter.model.Cityregion" >
+    update cityregion
+    <set >
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="path != null" >
+        path = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="deep != null" >
+        deep = #{deep,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="lastModifyTime != null" >
+        last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pinyin != null" >
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.onlinever.usercenter.model.Cityregion" >
+    update cityregion
+    set parent_id = #{parentId,jdbcType=INTEGER},
+      path = #{path,jdbcType=VARCHAR},
+      deep = #{deep,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      last_modify_time = #{lastModifyTime,jdbcType=TIMESTAMP},
+      pinyin = #{pinyin,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <!-- 获取 -->
+  <select id="getCityregionsByCityId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from cityregion
+    where city_id = #{cityId,jdbcType=INTEGER}
+  </select>
+</mapper>

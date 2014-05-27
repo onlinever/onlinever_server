@@ -8,8 +8,8 @@ import com.onlinever.commons.util.ReadPropertiesUtil;
 public class OnlineverException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
-	
 	public int errorCode = 400;
+	
 	public static final Integer NOT_EXIST = 404;
 	public static final Integer ACCOUNT_NOT_EQUAL = 405;
 	public static final Integer SUCCESSFUL = 200;
@@ -27,8 +27,10 @@ public class OnlineverException extends RuntimeException {
 	public static final Integer ENDTIME_IS_ILLEGAL = 611;
 	public static final Integer SOURCE_IS_NULL = 615;
 	public static final Integer TARGET_IS_NULL = 616;
+	public static final Integer COMPANY_NOT_EQUAL = 617;
 	public static final Integer PARAM_IS_ILLEGAL = 700;
 	
+	public static final Integer REFUND_SUBMIT_ERROR = 800;
 	
 	public OnlineverException(int errcode) {
 		super(ReadPropertiesUtil.getErrorMessage(errcode));
