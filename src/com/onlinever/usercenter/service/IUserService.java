@@ -5,6 +5,7 @@ import java.util.List;
 import com.onlinever.usercenter.model.City;
 import com.onlinever.usercenter.model.Cityregion;
 import com.onlinever.usercenter.model.Province;
+import com.onlinever.usercenter.model.User;
 
 public interface IUserService {
 	/**
@@ -32,4 +33,18 @@ public interface IUserService {
 	 * @return
 	 */
 	public List<Cityregion> getCityregionByCityId(Integer id);
+	
+	/**
+	 * 新增用户
+	 * @param user
+	 * @return
+	 */
+	public int addUser(User user);
+	
+	/**
+	 * 用户是否已存在
+	 * @param user
+	 * @return
+	 */
+	public boolean getUserIsExists(User user);
 }

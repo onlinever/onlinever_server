@@ -267,4 +267,22 @@
       cityRegion_id = #{cityregionId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 用户是否已存在 -->
+  <select id="getUserIsExists" parameterType="com.onlinever.usercenter.model.User" resultType="int">
+  	SELECT
+		COUNT(id)
+	FROM
+		`user` 
+	<trim prefix="WHERE" prefixOverrides="AND |OR " >
+		<if test="loginName != null">
+			login_name = #{loginName}
+		</if>
+		<if test=" mobile != null">
+			OR mobile = #{mobile}
+		</if>
+		<if test="email != null">
+			OR email = #{email}
+		</if>
+	</trim>
+  </select>
 </mapper>

@@ -32,19 +32,4 @@
 			<ref bean="connectionManager" />
 		</constructor-arg>
 	</bean>
-	
-    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-		<property name="resourceLoaderPath" value="/WEB-INF/view"/>
-		<property name="velocityProperties">
-			<props>
-				<prop key="velocimacro.library"></prop>
-                <prop key="default.contentType">text/html; charset=utf-8</prop>
-                <prop key="output.encoding">utf-8</prop>
-                <prop key="input.encoding">utf-8</prop>				
-			</props>
-		</property>                 
-    </bean>
-    <bean id="templateEngine" class="com.onlinever.commons.util.TemplateEngine">
-        <property name="velocityEngine" ref="velocityEngine"/>        
-    </bean>
 </beans>

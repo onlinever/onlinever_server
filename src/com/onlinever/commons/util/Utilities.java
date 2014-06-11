@@ -14,7 +14,6 @@ import java.security.SecureRandom;
 import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Date;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -33,95 +32,55 @@ import sun.misc.BASE64Encoder;
  * 此类用来做工具类集合
  *
  */
-public class Utilities
-{
+public class Utilities{
+	//请求key
 	public static final String INPUT_JSON_KEY = "INPUT_JSON";
-	public static final String PAYMENT_KEY = "payment_";
+	
 	private static final String KEY_ALGORITHM = "RSA";
+	//签名算法
 	private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
+	//盐值
 	@SuppressWarnings("unused")
 	private static final String SALT = "148bddcb4ac3f557c130938f32e87280";
+	
 	private static final String AES_KEY="ef7f8ffceb162863ceba4f5a552e1788576819bf906df6dd1680315ab1cccb89";
-	private static final ThreadPoolExecutor executer =new ThreadPoolExecutor(3, 5, 10
-			, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>(10000));
 	
-	private static final ThreadPoolExecutor settleExecuter =new ThreadPoolExecutor(3, 5, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>(10000));
-	
-	private static final ThreadPoolExecutor refundExecuter =new ThreadPoolExecutor(3, 5, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>(10000));
+	private static final ThreadPoolExecutor executer =new ThreadPoolExecutor(3, 5, 10, TimeUnit.MINUTES, new LinkedBlockingQueue<Runnable>(10000));
 	
 	public static ThreadPoolExecutor getExecutor() {
 		return executer;
 	}	
-	
-	 /**
-	 * @return the settleexecuter
-	 */
-	public static ThreadPoolExecutor getSettleExecuter() {
-		return settleExecuter;
-	}
 
 	/**
-	 * @return the refundexecuter
-	 */
-	public static ThreadPoolExecutor getRefundExecuter() {
-		return refundExecuter;
-	}
-
-	/**
-     * Encode a string using algorithm specified in web.xml and return the
-     * resulting encrypted password. If exception, the plain credentials
-     * string is returned
-     *
-     * @param password Password or other credentials to use in authenticating
-     *        this username
-     * @param algorithm Algorithm used to do the digest
-     *
-     * @return encypted password based on the algorithm.
+     * MD5加密
+     * @return 32位加密后密码
      */
     public static String encodePassword(String password) {
         byte[] unencodedPassword = password.getBytes();
-        
         MessageDigest md = null;
-        
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (Exception e) {
             return password;
         }
-        
         md.reset();
-        
-        // call the update method one or more times
-        // (useful when you don't know the size of your data, eg. stream)
         md.update(unencodedPassword);
-        
-        // now calculate the hash
         byte[] encodedPassword = md.digest();
-        
         StringBuffer buf = new StringBuffer();
-        
         for (int i = 0; i < encodedPassword.length; i++) {
             if ((encodedPassword[i] & 0xff) < 0x10) {
                 buf.append("0");
             }
-            
             buf.append(Long.toString(encodedPassword[i] & 0xff, 16));
         }
-        
         return buf.toString();
     }
 	
-	
     /**
-     * Encode a string using algorithm specified in web.xml and return the
-     * resulting encrypted password. If exception, the plain credentials
-     * string is returned
-     *
-     * @param password Password or other credentials to use in authenticating
-     *        this username
-     * @param algorithm Algorithm used to do the digest
-     *
-     * @return encypted password based on the algorithm.
+     * 加密
+     * @param password 明文密码
+     * @param algorithm 加密算法
+     * @return
      */
     public static String encodePassword(String password, String algorithm) {
         byte[] unencodedPassword;
@@ -130,40 +89,27 @@ public class Utilities
 		} catch (UnsupportedEncodingException e) {
 			return password;
 		}
-        
         MessageDigest md = null;
-        
         try {
-            // first create an instance, given the provider
             md = MessageDigest.getInstance(algorithm);
         } catch (Exception e) {
             return password;
         }
-        
         md.reset();
-        
-        // call the update method one or more times
-        // (useful when you don't know the size of your data, eg. stream)
         md.update(unencodedPassword);
-        
-        // now calculate the hash
         byte[] encodedPassword = md.digest();
-        
         StringBuffer buf = new StringBuffer();
-        
         for (int i = 0; i < encodedPassword.length; i++) {
             if ((encodedPassword[i] & 0xff) < 0x10) {
                 buf.append("0");
             }
-            
             buf.append(Long.toString(encodedPassword[i] & 0xff, 16));
         }
-        
         return buf.toString();
     }
     
     /**
-     * 产生数字和字母混合的指定位数的随机密码
+     * 产生指定位数的随机字母密码
      * @param count 位数
      * @return 随机密码
      */
@@ -173,58 +119,14 @@ public class Utilities
        	return randomPwd;
     }
     
-    /**
-     * 排序字段的获取
-     * @param orderBy 排序
-     * @return 排序字段
-     */
-    public static String getOrderBy(Integer orderBy) {
-		if(orderBy==null)
-		{
-			orderBy =0;
-		}
-		switch (orderBy) {
-		case 0:
-			return "volume:desc";
-		case 1:
-			return "price:desc";
-		case 2:
-			return "price:asc";
-		case 3:
-			return "seller_credit:desc";
-		default:
-			return "volume:desc";
-		}
-	} 
-    
-    /**
-     * 排序字段的获取
-     * @param orderBy 排序
-     * @return 排序字段
-     */
-    public static String getOrderKeBy(Integer orderBy) {
-		if(orderBy==null)
-		{
-			orderBy =0;
-		}
-		switch (orderBy) {
-		case 0:
-			return "commissionNum_desc";
-		case 1:
-			return "price_desc";
-		case 2:
-			return "price_asc";
-		case 3:
-			return "credit_desc";
-		default:
-			return "commissionNum_desc";
-		}
-	} 
-    
     public static String encodeMD5(String content){
     	return encodePassword(content + getRandomPwd(40), "md5");
     }
-    
+    /**
+     * 产生随机数
+     * @param count 位数
+     * @return
+     */
     public static String getRandomNumber(int count){
     	String random = RandomStringUtils.random(count, false, true);
        	return random;   	
@@ -374,7 +276,11 @@ public class Utilities
         _generator = null;
         return key;
     }
-    
+    /**
+     * String to Integer
+     * @param num
+     * @return
+     */
     public static Integer parseInt(String num){
     	Integer n = null;
     	try{
@@ -384,7 +290,11 @@ public class Utilities
     	}
     	return n;
     }
-    
+    /**
+     * String to Byte
+     * @param num
+     * @return
+     */
     public static Byte parseByte(String num){
     	Byte n = null;
     	try{
@@ -394,8 +304,11 @@ public class Utilities
     	}
     	return n;
     }
-    
-   
+    /**
+     * String to Short
+     * @param num
+     * @return
+     */
     public static Short parseShort(String num){
     	Short n = null;
     	try{
@@ -405,7 +318,11 @@ public class Utilities
     	}
     	return n;
     }     
-    
+    /**
+     * String to Boolean
+     * @param num
+     * @return
+     */
     public static Boolean parseBoolean(String num){
     	Boolean n = null;
     	try{
@@ -415,7 +332,11 @@ public class Utilities
     	}
     	return n;
     }  
-    
+    /**
+     * 获取请求IP
+     * @param request
+     * @return
+     */
 	public static String getRemortIP(HttpServletRequest request) {
 		String ip = request.getHeader("X-Forwarded-For");
 		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {   
@@ -432,7 +353,10 @@ public class Utilities
 	    }   
 		return ip;   
 	}
-	
+	/**
+	 * 获取本机IP
+	 * @return
+	 */
 	public static String getLocalIp(){
 		String ip = "";
 		try {
@@ -443,20 +367,6 @@ public class Utilities
 		}
 		return ip;
 	}
-	
-	public static StringBuilder appendParam(StringBuilder returnStr,String paramId,String paramValue){
-		if(returnStr.length() > 0){
-			if(paramValue != null && !paramValue.equals("")){
-				returnStr.append("&").append(paramId).append("=").append(paramValue);
-			}
-		}else{
-			if(paramValue != null && !paramValue.equals("")){
-				returnStr.append(paramId).append("=").append(paramValue);
-			}
-		}
-		return returnStr;
-	}
-	
 	/**
 	 * 数字位数不足补0
 	 * @param num 数字
@@ -473,23 +383,21 @@ public class Utilities
 		sb.append(str);
 		return sb.toString();
 	}
-	
-	public static String getFlowCode(int padding, int id, int length){
-		StringBuilder sbCode = new StringBuilder(50);
-		sbCode.append(DateUtil.getPaymentCodeDateStr(new Date()));
-		sbCode.append(String.format("%02d", padding));
-		String strId = new Integer(id).toString();
-		sbCode.append(strId.length() > length ? strId.substring(strId.length() - length) : String.format("%0"+length+"d", id));
-		return sbCode.toString();
+	/**
+	 * 生成乱码用户名
+	 * @param mobile
+	 * @return
+	 */
+	public static String getRandomUname(String mobile){
+		StringBuffer sb = new StringBuffer();
+		sb.append(mobile.substring(0,6));
+		sb.append(getRandomPwd(6));
+		return sb.toString();
 	}
 	
-	public static String getRefundCode(int platformId, int id, int length){
-		StringBuilder sbCode = new StringBuilder(50);
-		sbCode.append(DateUtil.getRefundCodeDateStr(new Date()));
-		sbCode.append(String.format("%02d", platformId));
-		String strId = new Integer(id).toString();
-		sbCode.append(strId.length() > length ? strId.substring(strId.length() - length) : String.format("%0"+length+"d", id));
-		return sbCode.toString();
+	public static void main(String[] args) {
+		for (int i = 0; i < 100; i++) {
+			System.out.println(getRandomPwd(6));
+		}
 	}
-	
 }

@@ -1,15 +1,13 @@
 package com.onlinever.commons.util;
 
-import java.util.Calendar;
-
-
 public class Test {
 	public static void main(String[] args) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(DateUtil.getCurrentDate());
-		cal.add(Calendar.DATE, 3 * -1);
-		System.out.println(cal.getTime());
-		cal.add(Calendar.DATE, 3 -1);
-		System.out.println(cal.getTime());
+		String a = Utilities.getRandomNumber(6);
+		String b = Utilities.getRandomPwd(6);
+		String s = "";
+		for (int i = 0; i < 6; i++) {
+			s=s+b.charAt(i)+a.charAt(i);
+		}
+		System.out.println(s);
 	}
 }
