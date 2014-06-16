@@ -6,6 +6,18 @@ import javax.servlet.http.HttpServletResponse;
 import com.onlinever.commons.util.NormalReturn;
 
 public interface IGatewayHandler {
-	
-	public NormalReturn saveApplication(HttpServletRequest request, HttpServletResponse response);
+	/**
+	 * 获取session
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public NormalReturn getSession(HttpServletRequest request,HttpServletResponse response);
+	/**
+	 * 用户注册
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public NormalReturn register(HttpServletRequest request,HttpServletResponse response);
 }
