@@ -30,7 +30,12 @@ public class GatewayHandler implements IGatewayHandler{
 			HttpServletResponse response) {
 		NormalReturn nr = new NormalReturn();
 		try{
-			nr.setResult(request.getSession().getAttribute("user"));
+			JSONObject json = (JSONObject)request.getAttribute(Utilities.INPUT_JSON_KEY);
+			String key = json.getString("key");
+			if(key==null){
+				throw new OnlineverException(OnlineverException.INPUT_PARAM_INVALID);
+			}
+			nr.setResult(request.getSession().getAttribute(key));
 		}catch(OnlineverException e){
 			nr.setStatusCode(e.errorCode);
 			nr.setMsg(e.getMessage());
@@ -51,17 +56,17 @@ public class GatewayHandler implements IGatewayHandler{
 			HttpServletResponse response) {
 		NormalReturn nr = new NormalReturn();
 		try{
-//			JSONObject json = (JSONObject)request.getAttribute(Utilities.INPUT_JSON_KEY);
-//			User user = JSONObject.toJavaObject(json, User.class);
-//			//注册IP
-//			if(null == user.getRegisterIp() || !user.getRegisterIp().equals("")){
-//				user.setRegisterIp(Utilities.getRemortIP(request));
-//			}
-//			//注册时间
-//			user.setRegisterTime(new Date());
+			JSONObject json = (JSONObject)request.getAttribute(Utilities.INPUT_JSON_KEY);
+			User user = JSONObject.toJavaObject(json, User.class);
+			//注册IP
+			if(null == user.getRegisterIp() || !user.getRegisterIp().equals("")){
+				user.setRegisterIp(Utilities.getRemortIP(request));
+			}
+			//注册时间
+			user.setRegisterTime(new Date());
 			log.info("register");
 			request.getSession().setAttribute("user", "945688");
-//			userService.addUser(user);
+			userService.addUser(user);
 		}catch(OnlineverException e){
 			nr.setStatusCode(e.errorCode);
 			nr.setMsg(e.getMessage());
