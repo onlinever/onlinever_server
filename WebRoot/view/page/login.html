@@ -3,12 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <title>onlinever.com ---- login</title>
+<script type="text/javascript" src="/view/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+$(function($) {
+	$("input").click(function(){
+		this.value="";
+		$.get("http://www.onlinever.com/gateway/register.htm", function(data){
+			 alert("register: " + data.result);
+		});
+	});
+	$.get("http://www.onlinever.com/gateway/getSession.htm", function(data){
+		 alert("Data Loaded: " + data.result);
+	});
+});
+
+</script>
 </head>
 <body>
+<div id ="head"></div>
 <div id="dologin">
-<input id="userName" type="text" value="请输入您的邮箱、用户名或手机号" onclick="textclick()"/>
+<input id="userName" type="text" value="请输入您的邮箱、用户名或手机号" onclick="textclick()" />
 <br /><input type="password"/>
-<br /><input type="submit">
+<br /><input id="register" type="submit" value="注册"/>
 </div>
 </body>
 </html>
