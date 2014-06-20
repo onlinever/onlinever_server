@@ -2,16 +2,29 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/view/style/main.css" />
+<style type="text/css">
+ #logo {float:left}
+ #header {float:right}
+</style>
 <script type="text/javascript" src="/view/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript">
 $(function($) {
-	$.get("www.onlinever.com/gateway/getSession.htm", function(data){
-		 alert("Data Loaded: " + data.result);
-	});
+	$.post("http://www.onlinever.com/gateway/getSession.htm", "{ key: 'user' }",
+			   function(data){
+			     if(data.statusCode!=200){
+			    	 $("#header").html("<a href=\"/view/page/login.html\" target=main>sign in</a>/<a href=\"/view/page/register.html\" target=main>sign up</a>");
+			     }else{
+			    	 $("#header").html("<a href=\"/view/page/login.html\" target=main>"+data.result+"</a>");
+			     }
+		 });
 });
 </script>
 </head>
 <body>
-
+<div id="logo">
+	<a href="/view/page/layout/home.html" target="main"><img alt="home" src="/view/image/main_logo.jpg" /></a>
+</div>
+<div id="header"></div>
 </body>
 </html>

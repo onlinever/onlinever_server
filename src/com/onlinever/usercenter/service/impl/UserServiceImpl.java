@@ -75,9 +75,9 @@ public class UserServiceImpl implements IUserService {
 		if(this.getUserIsExists(user)){
 			throw new OnlineverException(OnlineverException.USER_ALREADY_EXIST);
 		}
-		//生成随机密码
+		//密码不能为空
 		if(user.getPassword()==null){
-			user.setPassword(Utilities.getRandomPwd(8));
+			throw new OnlineverException(OnlineverException.INPUT_PARAM_INVALID);
 		}
 		return 0;
 	}

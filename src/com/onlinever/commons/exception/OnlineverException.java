@@ -15,6 +15,8 @@ public class OnlineverException extends RuntimeException {
 	public static final Integer UNKNOWN_ERROR = 400;
 	public static final Integer INPUT_PARAM_INVALID = 60002001;
 	public static final Integer USER_ALREADY_EXIST = 60002002;
+	public static final Integer REQUIRED_PARAMETER_MISSING = 60002003;
+	
 	
 	public OnlineverException(int errcode) {
 		super(ReadPropertiesUtil.getErrorMessage(errcode));
