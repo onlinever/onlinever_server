@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="application/x-www-form-urlencoded" charset="UTF-8">
+<title>login</title>
+<script type="text/javascript" src="/view/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+$(function($) {
+	$("#register").click(function(){
+		var uname = $("#userName").val();
+		alert(uname);
+		$.post("http://www.onlinever.com/gateway/register.htm", "{ \"loginName\": \""+uname+"\" }",
+		   	function(data){
+				if(data.statusCode!=200){
+					alert("error");
+				}
+		});
+	$.get("http://www.onlinever.com/gateway/getSession.htm", function(data){
+		 alert("Data Loaded: " + data.result);
+	});
+});
+
+</script>
+</head>
+<body>
+<div id ="head"></div>
+<div id="dologin">
+<input id="userName" type="text" value="请输入您的邮箱、用户名或手机号" onclick="textclick()" />
+<br /><input type="password"/>
+<br /><input id="register" type="submit" value="sign in"/>
+</div>
+</body>
+</html>
