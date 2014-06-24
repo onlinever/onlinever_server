@@ -13,9 +13,11 @@ $(function($) {
 	$.post("http://www.onlinever.com/gateway/getSession.htm", "{ key: 'user' }",
 			   function(data){
 			     if(data.statusCode!=200){
-			    	 $("#header").html("<a href=\"/view/page/login.html\" target=main>sign in</a>/<a href=\"/view/page/register.html\" target=main>sign up</a>");
+			    	 $("#header").html("<a class=title href=\"/view/page/login.html\" target=main>sign in</a>/<a class=title href=\"/view/page/register.html\" target=main>sign up</a>");
 			     }else{
-			    	 $("#header").html("<a href=\"/view/page/login.html\" target=main>"+data.result+"</a>");
+			    	 var uname = data.result.length > 6 ? data.result.substring(0,6)+"..." : data.result;
+			    	 alert(data.result.length);
+			    	 $("#header").html("<a class=title href=\"/view/page/login.html\" target=main>"+uname+"</a>");
 			     }
 		 });
 });
