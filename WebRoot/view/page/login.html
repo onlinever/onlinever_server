@@ -15,6 +15,17 @@ $(function($) {
 					alert("error");
 				}
 		});
+	});
+	$("#sendEmail").click(function(){
+		var email = $("#email").val();
+		alert(email);
+		$.post("http://www.onlinever.com/gateway/sendVerifyMail.htm", "{ \"email\": \""+email+"\" }",
+		   	function(data){
+				if(data.statusCode!=200){
+					alert("error");
+				}
+		});
+	});
 	$.get("http://www.onlinever.com/gateway/getSession.htm", function(data){
 		 alert("Data Loaded: " + data.result);
 	});
@@ -24,10 +35,13 @@ $(function($) {
 </head>
 <body>
 <div id ="head"></div>
-<div id="dologin">
-<input id="userName" type="text" value="请输入您的邮箱、用户名或手机号" onclick="textclick()" />
+<form id="dologin">
+<input id="userName" type="text" value="请输入您的邮箱、用户名或手机号" /><br />
+<input id="email" type="text" value="请输入您的邮箱" /><br />
+<input id="sendEmail" type="button" value="发送验证邮件" /><br />
+<input id="emailVerifyCode" type="text" value="请输入您的邮箱验证码" />
 <br /><input type="password"/>
 <br /><input id="register" type="submit" value="sign in"/>
-</div>
+</form>
 </body>
 </html>

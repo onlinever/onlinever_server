@@ -16,6 +16,9 @@ public class OnlineverException extends RuntimeException {
 	public static final Integer INPUT_PARAM_INVALID = 60002001;
 	public static final Integer USER_ALREADY_EXIST = 60002002;
 	public static final Integer REQUIRED_PARAMETER_MISSING = 60002003;
+	public static final Integer EMAIL_VALIDATION_FAIL = 60002004;
+	public static final Integer MOBILE_VALIDATION_FAIL = 60002005;
+	public static final Integer PASSWORD_VALIDATION_FAIL = 60002006;
 	
 	
 	public OnlineverException(int errcode) {

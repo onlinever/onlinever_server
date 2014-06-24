@@ -14,6 +14,8 @@ import javax.mail.internet.MimeMultipart;
 
 import org.apache.log4j.Logger;
 
+import com.onlinever.usercenter.task.SendEmailTask;
+
 public class Mail {
 	
 	private static Logger log = Logger.getLogger(Mail.class);
@@ -24,6 +26,7 @@ public class Mail {
     private String username;
     private String password;
     private Multipart mp;
+    
     public Mail(String smtp,String port) {
         setSmtpHost(smtp,port);
         createMimeMessage();
@@ -180,9 +183,12 @@ public class Mail {
 	    String username = ResourceUtils.getResString("mail.uname");// 发件人真实的账户名
 	    String password = ResourceUtils.getResString("mail.pwd");// 发件人密码
 	    Mail.sendAndCc(smtp, from, email, copyto, subject, content, username, password, port);
+	    
 	}
     
     public static void main(String[] args) {
-		sendMail("946894520@qq.com","onlinever.com(注册邮箱验证)" , ResourceUtils.getString("mail.register","946894520@qq.com","945624" ));
-	}
+    	System.out.println(1);
+    	Utilities.getExecutor().execute(new SendEmailTask("xx313only@qq.com", ResourceUtils.getString("mail.register.subject"), ResourceUtils.getString("mail.register.content","xx313only@qq.com","123456")));
+    	System.out.println(222);
+    }
 }

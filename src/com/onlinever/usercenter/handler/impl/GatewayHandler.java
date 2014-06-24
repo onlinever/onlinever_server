@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSONObject;
 import com.onlinever.commons.exception.OnlineverException;
 import com.onlinever.commons.util.NormalReturn;
+import com.onlinever.commons.util.ResourceUtils;
 import com.onlinever.commons.util.Utilities;
 import com.onlinever.usercenter.handler.IGatewayHandler;
 import com.onlinever.usercenter.model.User;
 import com.onlinever.usercenter.service.IUserService;
+import com.onlinever.usercenter.task.SendEmailTask;
 
 
 @Service("gatewayHandler")
@@ -26,12 +28,17 @@ public class GatewayHandler implements IGatewayHandler{
 	@Autowired
 	private IUserService userService;
 	
+	/**
+	 * 获取session
+	 * @param request
+	 * @param response
+	 * @return
+	 */
 	public NormalReturn getSession(HttpServletRequest request,
 			HttpServletResponse response) {
 		NormalReturn nr = new NormalReturn();
-		JSONObject json = new JSONObject();
 		try{
-			json = (JSONObject)request.getAttribute(Utilities.INPUT_JSON_KEY);
+			JSONObject json = (JSONObject)request.getAttribute(Utilities.INPUT_JSON_KEY);
 			String key = json.getString("key");
 			if(key==null){
 				throw new OnlineverException(OnlineverException.INPUT_PARAM_INVALID);
@@ -41,9 +48,7 @@ public class GatewayHandler implements IGatewayHandler{
 			if(o == null){
 				throw new OnlineverException(OnlineverException.NOT_EXIST);
 			}
-			log.info(o.toString());
 			nr.setResult(o);
-			nr.setResult(request.getSession().getAttribute("user"));
 		}catch(OnlineverException e){
 			nr.setStatusCode(e.errorCode);
 			nr.setMsg(e.getMessage());
@@ -54,6 +59,71 @@ public class GatewayHandler implements IGatewayHandler{
 		}
 		return nr;
 	}
+	/**
+	 * 发送验证邮件
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public NormalReturn sendVerifyMail(HttpServletRequest request,
+			HttpServletResponse response) {
+		NormalReturn nr = new NormalReturn();
+		try{
+			JSONObject json = (JSONObject)request.getAttribute(Utilities.INPUT_JSON_KEY);
+			String email = json.getString("email");
+			if(email==null){
+				throw new OnlineverException(OnlineverException.INPUT_PARAM_INVALID);
+			}
+			Object key = request.getSession().getAttribute("emailVerifyCode");
+			if(key == null){
+				key = Utilities.getRandomPwd(6);
+				request.getSession().setAttribute("emailVerifyCode",key);
+			}
+			//sendEmail
+			Utilities.getExecutor().execute(new SendEmailTask(email, ResourceUtils.getString("mail.register.subject"), ResourceUtils.getString("mail.register.content",email,key)));
+			nr.setResult("success");
+		}catch(OnlineverException e){
+			nr.setStatusCode(e.errorCode);
+			nr.setMsg(e.getMessage());
+		}catch(Exception e){
+			e.printStackTrace();
+			nr.setMsg(e.getMessage());
+			nr.setStatusCode(OnlineverException.UNKNOWN_ERROR);
+		}
+		return nr;
+	}
+	/**
+	 * 邮件验证
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public NormalReturn verifyMail(HttpServletRequest request,
+			HttpServletResponse response) {
+		NormalReturn nr = new NormalReturn();
+		try{
+			JSONObject json = (JSONObject)request.getAttribute(Utilities.INPUT_JSON_KEY);
+			String email = json.getString("email");
+			String emailVerifyCode = json.getString("emailVerifyCode");
+			if(email == null || emailVerifyCode == null){
+				throw new OnlineverException(OnlineverException.INPUT_PARAM_INVALID);
+			}
+			Object key = request.getSession().getAttribute("emailVerifyCode");
+			if(!key.equals(emailVerifyCode)){
+				throw new OnlineverException(OnlineverException.EMAIL_VALIDATION_FAIL);
+			}
+			nr.setResult("success");
+		}catch(OnlineverException e){
+			nr.setStatusCode(e.errorCode);
+			nr.setMsg(e.getMessage());
+		}catch(Exception e){
+			e.printStackTrace();
+			nr.setMsg(e.getMessage());
+			nr.setStatusCode(OnlineverException.UNKNOWN_ERROR);
+		}
+		return nr;
+	}
+	
 	/**
 	 * 用户注册
 	 * @param request
@@ -76,8 +146,6 @@ public class GatewayHandler implements IGatewayHandler{
 			log.info(user.getLoginName());
 			request.getSession().removeAttribute("user");
 			request.getSession().setAttribute("user", user.getLoginName());
-			log.info("register");
-			request.getSession().setAttribute("user", "945688");
 //			userService.addUser(user);
 		}catch(OnlineverException e){
 			nr.setStatusCode(e.errorCode);
