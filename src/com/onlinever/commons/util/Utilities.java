@@ -17,6 +17,8 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -24,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+
+import com.onlinever.usercenter.model.User;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -394,10 +398,57 @@ public class Utilities{
 		sb.append(getRandomPwd(6));
 		return sb.toString();
 	}
+	/**
+	 * 验证邮箱地址是否正确
+	 * @param email
+	 * @return
+	 */
+	public static boolean checkEmail(String email){
+		boolean flag = false;
+		try{
+			String check = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+			Pattern regex = Pattern.compile(check);
+			Matcher matcher = regex.matcher(email);
+			flag = matcher.matches();
+		}catch(Exception e){
+			flag = false;
+		}
+		return flag;
+	}
+	/**
+	 * 验证手机号码
+	 * @param mobiles
+	 * @return
+	 */
+	public static boolean isMobileNO(String mobiles){
+		boolean flag = false;
+		try{
+			Pattern p = Pattern.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+			Matcher m = p.matcher(mobiles);
+			flag = m.matches();
+		}catch(Exception e){
+			flag = false;
+		}
+		return flag;
+	}
+	/**
+	 * 验证登录类型(邮箱,手机号,用户名)
+	 * @param user
+	 * @return
+	 */
+	public static User getUserParamType(User user){
+		String userName = user.getUserName();
+		if(checkEmail(userName)){
+			user.setEmail(userName);
+		}else if(isMobileNO(userName)){
+			user.setMobile(userName);
+		}else{
+			user.setLoginName(userName);
+		}
+		return user;
+	}
 	
 	public static void main(String[] args) {
-		for (int i = 0; i < 100; i++) {
-			System.out.println(getRandomPwd(6));
-		}
+		System.out.println(Utilities.encodePassword("123456"));
 	}
 }

@@ -34,4 +34,11 @@ public interface IGatewayHandler {
 	 * @return
 	 */
 	public NormalReturn register(HttpServletRequest request,HttpServletResponse response);
+	/**
+	 * 用户登录
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public NormalReturn login(HttpServletRequest request,HttpServletResponse response);
 }

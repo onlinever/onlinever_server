@@ -46,5 +46,12 @@ public interface IUserService {
 	 * @param user
 	 * @return
 	 */
-	public boolean getUserIsExists(User user);
+	public int getUserIsExists(User user);
+	
+	/**
+	 * 用户登录
+	 * @param user
+	 * @return
+	 */
+	public User doLogin(User user);
 }

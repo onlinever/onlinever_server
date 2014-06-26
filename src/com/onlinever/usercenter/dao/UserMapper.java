@@ -38,4 +38,10 @@ public interface UserMapper {
      * @return
      */
     int getUserIsExists(User record);
+    /**
+     * 登录密码验证
+     * @param record
+     * @return
+     */
+    User getUserByPword(User record);
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.onlinever.usercenter.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.onlinever.usercenter.model.User" >
+  <resultMap id="UserResultMap" type="com.onlinever.usercenter.model.User" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -28,7 +28,7 @@
     mobile_verify_code, email_verify_code, register_ip, register_time, last_login_time, 
     last_login_ip, last_modify_time, gender, real_name, birthday, is_active, cityRegion_id
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="UserResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from user
@@ -187,12 +187,6 @@
       <if test="loginName != null" >
         login_name = #{loginName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="payPassword != null" >
-        pay_password = #{payPassword,jdbcType=VARCHAR},
-      </if>
       <if test="mobile != null" >
         mobile = #{mobile,jdbcType=VARCHAR},
       </if>
@@ -247,8 +241,6 @@
   <update id="updateByPrimaryKey" parameterType="com.onlinever.usercenter.model.User" >
     update user
     set login_name = #{loginName,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      pay_password = #{payPassword,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       mobile_status = #{mobileStatus,jdbcType=TINYINT},
@@ -270,7 +262,7 @@
   <!-- 用户是否已存在 -->
   <select id="getUserIsExists" parameterType="com.onlinever.usercenter.model.User" resultType="int">
   	SELECT
-		COUNT(id)
+		IF(id IS NULL,0,id) 'id'
 	FROM
 		`user` 
 	<trim prefix="WHERE" prefixOverrides="AND |OR " >
@@ -284,5 +276,14 @@
 			OR email = #{email}
 		</if>
 	</trim>
+	limit 1
+  </select>
+  <!-- 登录 -->
+  <select id="getUserByPword" parameterType="com.onlinever.usercenter.model.User" resultMap="UserResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from `user` 
+    where id = #{id} 
+    AND password = #{password}
   </select>
 </mapper>

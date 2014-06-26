@@ -53,7 +53,7 @@ public class GatewayHandler implements IGatewayHandler{
 			nr.setStatusCode(e.errorCode);
 			nr.setMsg(e.getMessage());
 		}catch(Exception e){
-			e.printStackTrace();
+			log.error(this,e);
 			nr.setMsg(e.getMessage());
 			nr.setStatusCode(OnlineverException.UNKNOWN_ERROR);
 		}
@@ -86,7 +86,7 @@ public class GatewayHandler implements IGatewayHandler{
 			nr.setStatusCode(e.errorCode);
 			nr.setMsg(e.getMessage());
 		}catch(Exception e){
-			e.printStackTrace();
+			log.error(this,e);
 			nr.setMsg(e.getMessage());
 			nr.setStatusCode(OnlineverException.UNKNOWN_ERROR);
 		}
@@ -117,7 +117,7 @@ public class GatewayHandler implements IGatewayHandler{
 			nr.setStatusCode(e.errorCode);
 			nr.setMsg(e.getMessage());
 		}catch(Exception e){
-			e.printStackTrace();
+			log.error(this,e);
 			nr.setMsg(e.getMessage());
 			nr.setStatusCode(OnlineverException.UNKNOWN_ERROR);
 		}
@@ -147,6 +147,39 @@ public class GatewayHandler implements IGatewayHandler{
 			request.getSession().removeAttribute("user");
 			request.getSession().setAttribute("user", user.getLoginName());
 //			userService.addUser(user);
+		}catch(OnlineverException e){
+			nr.setStatusCode(e.errorCode);
+			nr.setMsg(e.getMessage());
+		}catch(Exception e){
+			log.error(this,e);
+			nr.setMsg(e.getMessage());
+			nr.setStatusCode(OnlineverException.UNKNOWN_ERROR);
+		}
+		return nr;
+	}
+	
+	/**
+	 * 用户登录
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public NormalReturn login(HttpServletRequest request,
+			HttpServletResponse response) {
+		NormalReturn nr = new NormalReturn();
+		User user = new User();
+		try{
+			JSONObject json = (JSONObject)request.getAttribute(Utilities.INPUT_JSON_KEY);
+			user = JSONObject.toJavaObject(json, User.class);
+			if(user.getUserName()==null || user.getPassword() ==null){
+				throw new OnlineverException(OnlineverException.REQUIRED_PARAMETER_MISSING);
+			}
+			//最后登录IP
+			user.setLastLoginIp(Utilities.getRemortIP(request));
+			User u = userService.doLogin(user);
+			request.getSession().removeAttribute("user");
+			request.getSession().setAttribute("user", u);
+			nr.setResult(u.getLoginName());
 		}catch(OnlineverException e){
 			nr.setStatusCode(e.errorCode);
 			nr.setMsg(e.getMessage());

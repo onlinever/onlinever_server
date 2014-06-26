@@ -1,5 +1,6 @@
 package com.onlinever.usercenter.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -72,7 +73,7 @@ public class UserServiceImpl implements IUserService {
 			}
 		}
 		//用户唯一验证
-		if(this.getUserIsExists(user)){
+		if(this.getUserIsExists(user) > 0){
 			throw new OnlineverException(OnlineverException.USER_ALREADY_EXIST);
 		}
 		//密码不能为空
@@ -86,11 +87,37 @@ public class UserServiceImpl implements IUserService {
 	 * @param user
 	 * @return
 	 */
-	public boolean getUserIsExists(User user){
+	public int getUserIsExists(User user){
 		if(user.getLoginName() != null || user.getEmail() != null || user.getMobile() != null){
-			return userMapper.getUserIsExists(user) > 0 ? true : false;
+			return userMapper.getUserIsExists(user);
 		}
-		return true;
+		return 0;
+	}
+	/**
+	 * 用户登录
+	 * @param user
+	 * @return
+	 */
+	public User doLogin(User user) {
+		//获取登录类型
+		user = Utilities.getUserParamType(user);
+		//取得用户Id
+		int userId = getUserIsExists(user);
+		//用户是否存在
+		if(userId == 0){
+			throw new OnlineverException(OnlineverException.USER_DOES_NOT_EXIST);
+		}
+		user.setId(userId);
+		//验证密码
+		User u = userMapper.getUserByPword(user);
+		if(u == null){
+			throw new OnlineverException(OnlineverException.PASSWORD_VALIDATION_FAIL);
+		}
+		//登录成功 修改最后登录记录
+		u.setLastLoginIp(user.getLastLoginIp());
+		u.setLastLoginTime(new Date());
+		userMapper.updateByPrimaryKey(u);
+		return u;
 	}
 	
 }
