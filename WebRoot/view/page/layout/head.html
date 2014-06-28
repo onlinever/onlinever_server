@@ -15,8 +15,7 @@ $(function($) {
 			     if(data.statusCode!=200){
 			    	 $("#header").html("<a class=title href=\"/view/page/login.html\" target=main>sign in</a>/<a class=title href=\"/view/page/register.html\" target=main>sign up</a>");
 			     }else{
-			    	 var uname = data.result.loginName.length > 6 ? data.result.substring(0,6)+"..." : data.result;
-			    	 alert(data.result.length);
+			    	 var uname = data.result.loginName.length > 6 ? data.result.loginName.substring(0,12)+"..." : data.result.logonName;
 			    	 $("#header").html("<a class=title href=\"/view/page/login.html\" target=main>"+uname+"</a>");
 			     }
 		 });

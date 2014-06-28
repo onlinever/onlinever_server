@@ -1,46 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="application/x-www-form-urlencoded" charset="UTF-8">
-<title>login</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/view/style/main.css" />
+<style type="text/css">
+ #logo {float:left}
+ #header {float:right}
+</style>
 <script type="text/javascript" src="/view/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript">
 $(function($) {
-	$.get("http://www.onlinever.com/gateway/getSession.htm", function(data){
-		 alert("Data Loaded: " + data.result);
-	});
-	
-	$("#login").click(function(){
-		var parJson = {"userName":$("#userName").val(),"password":$("#password").val()};
-		$.ajax({
-			   type: "POST",
-			   url: "http://www.onlinever.com/gateway/login.htm",
-			   data: parJson,
-			   success: function(msg){
-			     alert( "Data Saved: " + msg.msg );
-			   }
-			});
-	});
-	$("#sendEmail").click(function(){
-		var email = $("#email").val();
-		alert(email);
-		$.post("http://www.onlinever.com/gateway/sendVerifyMail.htm", "{ \"email\": \""+email+"\" }",
-		   	function(data){
-				if(data.statusCode!=200){
-					alert("error");
-				}
+	$.post("http://www.onlinever.com/gateway/getSession.htm", "{ key: 'user' }",
+			   function(data){
+			     if(data.statusCode!=200){
+			    	 
+			     }else{
+			    	 $("login").hidden();
+			    	 alert($("login").html());
+			     }
+		 });
+	$("#dologin").click(function(){
+		var userName = $("#userName").val();
+		var password = $("#password").val();
+		$.post("http://www.onlinever.com/gateway/login.htm", {"userName":userName,"password":password},
+				function(data){
+			alert(data.msg);
 		});
 	});
 });
-
 </script>
 </head>
 <body>
-<div id ="head"></div>
-<div id ="dologin">
-<input id="userName" type="text" value="请输入您的邮箱、用户名或手机号" />
-<br /><input type="password" value= "请输入密码"/>
-<br /><input id="login" type="button" value="sign in"/>
+<div id="login">
+	<input type="text" id="userName" /><br>
+	<input type="password" id="password"><br>
+	<input type="button" id="dologin"/>
 </div>
+<div id="logon"></div>
 </body>
 </html>
