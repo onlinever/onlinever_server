@@ -14,6 +14,13 @@ public interface IGatewayHandler {
 	 */
 	public NormalReturn getSession(HttpServletRequest request,HttpServletResponse response);
 	/**
+	 * 登出
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public NormalReturn loginOut(HttpServletRequest request,HttpServletResponse response);
+	/**
 	 * 发送验证邮件
 	 * @param request
 	 * @param response

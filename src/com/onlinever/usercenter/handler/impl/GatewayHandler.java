@@ -61,7 +61,7 @@ public class GatewayHandler implements IGatewayHandler{
 	}
 	
 	/**
-	 * 获取session
+	 * 登出
 	 * @param request
 	 * @param response
 	 * @return
