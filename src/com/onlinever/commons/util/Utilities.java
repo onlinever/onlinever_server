@@ -40,6 +40,8 @@ public class Utilities{
 	//请求key
 	public static final String INPUT_JSON_KEY = "INPUT_JSON";
 	
+	public static final String USER_SESSION_KEY = "user";
+	
 	private static final String KEY_ALGORITHM = "RSA";
 	//签名算法
 	private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";

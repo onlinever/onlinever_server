@@ -10,13 +10,13 @@
 <script type="text/javascript" src="/view/js/jquery-1.11.1.min.js"></script>
 <script type="text/javascript">
 $(function($) {
-	$.post("http://www.onlinever.com/gateway/getSession.htm", "{ key: 'user' }",
+	$.post("http://www.onlinever.com/gateway/getSession.htm", "{key:'user'}",
 			   function(data){
 			     if(data.statusCode!=200){
 			    	 $("#header").html("<a class=title href=\"/view/page/login.html\" target=main>sign in</a>/<a class=title href=\"/view/page/register.html\" target=main>sign up</a>");
 			     }else{
-			    	 var uname = data.result.loginName.length > 6 ? data.result.loginName.substring(0,12)+"..." : data.result.logonName;
-			    	 $("#header").html("<a class=title href=\"/view/page/login.html\" target=main>"+uname+"</a>");
+			    	 var uname = data.result.loginName.length > 6 ? data.result.loginName.substring(0,12)+"..." : data.result.loginName;
+			    	 $("#header").html("<a class=title href=\"/view/page/login.html\" target=main>"+uname+"</a>&nbsp;<a class=title href=\"/view/page/loginout.html\" target=main>sign out</a>");
 			     }
 		 });
 });

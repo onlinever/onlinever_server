@@ -8,34 +8,44 @@
  #header {float:right}
 </style>
 <script type="text/javascript" src="/view/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/view/js/jquery.form.js"></script>
+<script type="text/javascript" src="/view/js/jquery.validate.min.js"></script>
 <script type="text/javascript">
 $(function($) {
-	$.post("http://www.onlinever.com/gateway/getSession.htm", "{ key: 'user' }",
+	$("#loader").hide();
+	$.post("http://www.onlinever.com/gateway/getSession.htm", "{key:'user'}",
 			   function(data){
-			     if(data.statusCode!=200){
-			    	 
-			     }else{
-			    	 $("login").hidden();
-			    	 alert($("login").html());
+			     if(data.statusCode==200){
+			    	 $("#login").hide();
+			    	 $("#logon").html('<a href="#" onclick="parent.location.reload();">'+data.result.loginName+'</a>');
+			    	 $("#logon").show();
 			     }
 		 });
 	$("#dologin").click(function(){
-		var userName = $("#userName").val();
-		var password = $("#password").val();
-		$.post("http://www.onlinever.com/gateway/login.htm", {"userName":userName,"password":password},
-				function(data){
-			alert(data.msg);
-		});
+		$("#loader").show();
+		var parJson = '{"userName":"'+$("#userName").val()+'","password":"'+$("#password").val()+'"}';
+		$.ajax({
+			   type: "POST",
+			   url: "http://www.onlinever.com/gateway/login.htm",
+			   data: parJson,
+			   dataType:"json",
+			   success: function(msg){
+				   $("#loader").hide();
+				   parent.location.reload();
+			   }
+			});
 	});
 });
 </script>
 </head>
 <body>
 <div id="login">
+	<label id="errorMsg"></label>
 	<input type="text" id="userName" /><br>
 	<input type="password" id="password"><br>
-	<input type="button" id="dologin"/>
+	<input type="button" id="dologin" value = "sign in"/>
 </div>
+<div id="loader"><img src="/view/image/loading.gif" alt="loading..." /></div>
 <div id="logon"></div>
 </body>
 </html>

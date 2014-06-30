@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="/view/style/main.css" />
+<script type="text/javascript" src="/view/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+$(function($) {
+	$.post("http://www.onlinever.com/gateway/loginOut.htm",
+			   function(data){
+			     if(data.statusCode==200){
+			    	 parent.location.reload();
+			     }
+		 });
+});
+</script>
+<title>login out</title>
+</head>
+<body>
+
+<div align=center>
+	<p>系统正在为您退出，请稍候...</p><br /><br /><br /><br />
+	<img alt="loading..." src="/view/image/loading.gif" />
+</div>
+</body>
+</html>

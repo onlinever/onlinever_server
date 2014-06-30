@@ -7,6 +7,7 @@ import java.nio.charset.Charset;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -22,6 +23,8 @@ import com.onlinever.usercenter.handler.IGatewayHandler;
 @Controller
 @RequestMapping("/gateway")
 public class GatewayController{
+	
+	private static Logger log = Logger.getLogger(GatewayController.class);
 	@Autowired
 	private IGatewayHandler gatewayHandler;
 	
@@ -38,7 +41,6 @@ public class GatewayController{
 			methodName = methodName.split("\\.")[0];
 
 			JSONObject json = (JSONObject)request.getAttribute(Utilities.INPUT_JSON_KEY);
-			
 			if(json == null){
 				String content = FileCopyUtils.copyToString(new InputStreamReader(request.getInputStream(), Charset.forName("UTF-8")));
 				if(content != null && !"".equals(content)){
@@ -53,6 +55,7 @@ public class GatewayController{
 			nr = (NormalReturn)method.invoke(gatewayHandler, request, response);
 			nr.setCostTime(costTime.cost());
 		} catch (Exception e) {
+			log.error(this,e);
 			nr = new NormalReturn();
 			nr.setMsg(e.getMessage());
 			nr.setCostTime(costTime.cost());

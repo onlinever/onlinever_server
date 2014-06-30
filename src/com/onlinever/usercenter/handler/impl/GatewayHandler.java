@@ -59,6 +59,28 @@ public class GatewayHandler implements IGatewayHandler{
 		}
 		return nr;
 	}
+	
+	/**
+	 * 获取session
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public NormalReturn loginOut(HttpServletRequest request,
+			HttpServletResponse response) {
+		NormalReturn nr = new NormalReturn();
+		try{
+			request.getSession().removeAttribute(Utilities.USER_SESSION_KEY);
+		}catch(OnlineverException e){
+			nr.setStatusCode(e.errorCode);
+			nr.setMsg(e.getMessage());
+		}catch(Exception e){
+			log.error(this,e);
+			nr.setMsg(e.getMessage());
+			nr.setStatusCode(OnlineverException.UNKNOWN_ERROR);
+		}
+		return nr;
+	}
 	/**
 	 * 发送验证邮件
 	 * @param request
@@ -144,8 +166,8 @@ public class GatewayHandler implements IGatewayHandler{
 			//注册时间
 			user.setRegisterTime(new Date());
 			log.info(user.getLoginName());
-			request.getSession().removeAttribute("user");
-			request.getSession().setAttribute("user", user.getLoginName());
+			request.getSession().removeAttribute(Utilities.USER_SESSION_KEY);
+			request.getSession().setAttribute(Utilities.USER_SESSION_KEY, user.getLoginName());
 //			userService.addUser(user);
 		}catch(OnlineverException e){
 			nr.setStatusCode(e.errorCode);
@@ -177,8 +199,8 @@ public class GatewayHandler implements IGatewayHandler{
 			//最后登录IP
 			user.setLastLoginIp(Utilities.getRemortIP(request));
 			User u = userService.doLogin(user);
-			request.getSession().removeAttribute("user");
-			request.getSession().setAttribute("user", u);
+			request.getSession().removeAttribute(Utilities.USER_SESSION_KEY);
+			request.getSession().setAttribute(Utilities.USER_SESSION_KEY, u);
 			nr.setResult(u.getLoginName());
 		}catch(OnlineverException e){
 			nr.setStatusCode(e.errorCode);
