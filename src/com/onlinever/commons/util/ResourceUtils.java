@@ -13,15 +13,32 @@ import java.util.ResourceBundle;
 public class ResourceUtils {
 	private static ResourceBundle bundle;
 	private static ResourceBundle resBundle;
+	/**
+	 * default language English
+	 */
+	private static String LANGUAGE = "_en";
 	
 	static {
-		String language = ResourceBundle.getBundle("com/onlinever/commons/resource/i18n").getString("language");
+		setBundle();
+		resBundle = ResourceBundle.getBundle("com/onlinever/commons/resource/resource");
+	}
+	/**
+	 * update default Language
+	 * @param language
+	 */
+	public static void setLanguage(String language){
+		LANGUAGE = language;
+		setBundle();
+		
+	}
+	
+	private static void setBundle(){
+		//TODO More languages
 		Locale local = Locale.CHINA;
-		if(language.equals("_en")){
+		if(LANGUAGE.equals("_en")){
 			local = Locale.ENGLISH;
 		}
-		bundle = ResourceBundle.getBundle("com/onlinever/commons/resource/text"+language, local);
-		resBundle = ResourceBundle.getBundle("com/onlinever/commons/resource/resource");
+		bundle = ResourceBundle.getBundle("com/onlinever/commons/resource/text"+LANGUAGE, local);
 	}
 	
 	public static String getString(String label) {
@@ -93,7 +110,8 @@ public class ResourceUtils {
 	}
 	
 	public static void main(String []args ) {
-		System.out.println(ResourceUtils.getResString("mail.smtp"));
+		ResourceUtils.setLanguage(Utilities.ENGLISH);
+		System.out.println(ResourceUtils.getString("country"));
 	}
 	
 }

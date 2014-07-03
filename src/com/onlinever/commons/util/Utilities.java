@@ -41,6 +41,14 @@ public class Utilities{
 	public static final String INPUT_JSON_KEY = "INPUT_JSON";
 	
 	public static final String USER_SESSION_KEY = "user";
+	/**
+	 * 中
+	 */
+	public static final String CHINESE = "_zh";
+	/**
+	 * 英
+	 */
+	public static final String ENGLISH = "_en";
 	
 	private static final String KEY_ALGORITHM = "RSA";
 	//签名算法

@@ -187,8 +187,10 @@ public class Mail {
 	}
     
     public static void main(String[] args) {
-    	System.out.println(1);
-    	Utilities.getExecutor().execute(new SendEmailTask("xx313only@qq.com", ResourceUtils.getString("mail.register.subject"), ResourceUtils.getString("mail.register.content","xx313only@qq.com","123456")));
-    	System.out.println(222);
+    	ResourceUtils.setLanguage(Utilities.CHINESE);
+    	Utilities.getExecutor().execute(new SendEmailTask("qwe1617121620@foxmail.com", 
+    			ResourceUtils.getString("mail.register.subject"), 
+    			ResourceUtils.getString("mail.register.content",
+    					"qwe1617121620@foxmail.com","******")));
     }
 }
