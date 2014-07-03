@@ -1,11 +1,69 @@
-onlinever_server
-================
-1.userCenter
-----------------
-### README.md study
-		public static void main(String[] args){
-			System.out.println("hello world");
-		}
-1.[you can click here to go to github.com](http://github.com) 
-[![image]](http://www.github.com/)   
-[image]: http://github.com/github.png "github" 
+1.大标题   
+2.===================================   
+3.  大标题一般显示工程名,类似html的\<h1\><br />   
+4.  你只要在标题下面跟上=====即可   
+5.  
+6.     
+7.中标题   
+8.-----------------------------------   
+9.  中标题一般显示重点项,类似html的\<h2\><br />   
+10.  你只要在标题下面输入------即可   
+11.     
+12.### 小标题   
+13.  小标题类似html的\<h3\><br />   
+14.  小标题的格式如下 ### 小标题<br />   
+15.  注意#和标题字符中间要有空格   
+16.  
+17.### 注意!!!下面所有语法的提示我都先用小标题提醒了!!!    
+18.  
+19.### 单行文本框   
+20.    这是一个单行的文本框,只要两个Tab再输入文字即可   
+21.           
+22.### 多行文本框     
+23.    这是一个有多行的文本框   
+24.    你可以写入代码等,每行文字只要输入两个Tab再输入文字即可   
+25.    这里你可以输入一段代码   
+26.  
+27.### 比如我们可以在多行文本框里输入一段代码,来一个Java版本的HelloWorld吧   
+28.    public class HelloWorld {   
+29.  
+30.      /**   
+31.      * @param args   
+32.   */   
+33.   public static void main(String[] args) {   
+34.   System.out.println("HelloWorld!");   
+35.  
+36.   }   
+37.  
+38.    }   
+39.### 链接   
+40.1.[点击这里你可以链接到www.google.com](http://www.google.com)<br />   
+41.2.[点击这里我你可以链接到我的博客](http://guoyunsky.iteye.com)<br />   
+42.  
+43.###只是显示图片   
+44.![github](http://github.com/unicorn.png "github")   
+45.  
+46.###想点击某个图片进入一个网页,比如我想点击github的icorn然后再进入www.github.com   
+47.[![image]](http://www.github.com/)   
+48.[image]: http://github.com/github.png "github"  
+49.  
+50.### 文字被些字符包围   
+51.> 文字被些字符包围   
+52.>   
+53.> 只要再文字前面加上>空格即可   
+54.>   
+55.> 如果你要换行的话,新起一行,输入>空格即可,后面不接文字   
+56.> 但> 只能放在行首才有效   
+57.  
+58.### 文字被些字符包围,多重包围   
+59.> 文字被些字符包围开始   
+60.>   
+61.> > 只要再文字前面加上>空格即可   
+62.>   
+63.>  > > 如果你要换行的话,新起一行,输入>空格即可,后面不接文字   
+64.>   
+65.> > > > 但> 只能放在行首才有效   
+66.  
+67.### 特殊字符处理   
+68.有一些特殊字符如<,#等,只要在特殊字符前面加上转义字符\即可<br />   
+69.你想换行的话其实可以直接用html标签\<br /\>  
