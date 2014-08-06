@@ -205,7 +205,6 @@ public class ValidateCodeUtil {
             return (char) (65 + random.nextInt(26));   
         }   
         return (char) (97 + random.nextInt(26));   
-  
     } 
     
     public static void main(String[] args) throws Exception{
