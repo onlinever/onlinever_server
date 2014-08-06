@@ -16,7 +16,7 @@ $(function($) {
 			    	 $("#header").html("<a class=title href=\"/view/page/login.html\" target=main>sign in</a>/<a class=title href=\"/view/page/register.html\" target=main>sign up</a>");
 			     }else{
 			    	 var uname = data.result.loginName.length > 6 ? data.result.loginName.substring(0,12)+"..." : data.result.loginName;
-			    	 $("#header").html("<a class=title href=\"/view/page/login.html\" target=main>"+uname+"</a>&nbsp;<a class=title href=\"/view/page/loginout.html\" target=main>sign out</a>");
+			    	 $("#header").html("<a class=title href=\"/view/page/my.html\" target=main>"+uname+"</a>&nbsp;<a class=title href=\"/view/page/loginout.html\" target=main>sign out</a>");
 			     }
 		 });
 });

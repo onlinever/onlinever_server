@@ -1,11 +1,25 @@
 package com.onlinever.commons.util;
 
-import java.sql.Timestamp;
+import java.lang.reflect.*;
+
 
 
 
 public class Test {
 	public static void main(String[] args) {
-		System.out.println(new Timestamp(DateUtil.parseStringToDateTime("2014-06-25 23:59:59").getTime()));
+		try {
+			Demo demo = new Demo();
+			Method method = demo.getClass().getMethod("print",Integer.class);
+			method.setAccessible(true);
+			method.invoke(demo,1);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
+class Demo{
+	private void print(Integer col){
+		System.out.println(String.format("col = %s ,row = %s",1,2));
 	}
 }
