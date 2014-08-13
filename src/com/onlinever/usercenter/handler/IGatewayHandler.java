@@ -48,4 +48,11 @@ public interface IGatewayHandler {
 	 * @return
 	 */
 	public NormalReturn login(HttpServletRequest request,HttpServletResponse response);
+	/**
+	 * 省市区级联
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public NormalReturn getCityRegion(HttpServletRequest request,HttpServletResponse response);
 }

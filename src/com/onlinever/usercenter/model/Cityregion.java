@@ -2,7 +2,10 @@ package com.onlinever.usercenter.model;
 
 import java.util.Date;
 
+import com.onlinever.commons.cache.PK;
+
 public class Cityregion {
+	@PK
     private Integer id;
 
     private Integer parentId;

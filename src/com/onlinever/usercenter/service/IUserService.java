@@ -19,7 +19,7 @@ public interface IUserService {
 	 * 获取所有省份
 	 * @return
 	 */
-	public List<Province> getAllProvince();
+	public List<Province> getAllProvince(Integer memid);
 	
 	/**
 	 * 获取省份下的城市

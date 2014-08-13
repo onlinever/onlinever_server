@@ -1,6 +1,7 @@
 package com.onlinever.usercenter.handler.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,9 @@ import com.onlinever.commons.util.NormalReturn;
 import com.onlinever.commons.util.ResourceUtils;
 import com.onlinever.commons.util.Utilities;
 import com.onlinever.usercenter.handler.IGatewayHandler;
+import com.onlinever.usercenter.model.City;
+import com.onlinever.usercenter.model.Cityregion;
+import com.onlinever.usercenter.model.Province;
 import com.onlinever.usercenter.model.User;
 import com.onlinever.usercenter.service.IUserService;
 import com.onlinever.usercenter.task.SendEmailTask;
@@ -207,6 +211,45 @@ public class GatewayHandler implements IGatewayHandler{
 			nr.setMsg(e.getMessage());
 		}catch(Exception e){
 			log.error(this,e);
+			nr.setMsg(e.getMessage());
+			nr.setStatusCode(OnlineverException.UNKNOWN_ERROR);
+		}
+		return nr;
+	}
+	
+	/**
+	 * 省市区级联
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	public NormalReturn getCityRegion(HttpServletRequest request,
+			HttpServletResponse response){
+		NormalReturn nr = new NormalReturn();
+		try {
+			JSONObject json = (JSONObject)request.getAttribute(Utilities.INPUT_JSON_KEY);
+			int rank = json.getIntValue("rank");
+			int rankNo = json.getIntValue("rankNo");
+			switch (rank) {
+			case 1:
+				List<Province> plist = userService.getAllProvince(1);
+				nr.setResult(plist);
+				break;
+			case 2:
+				List<City> clist = userService.getCityByProvinceId(rankNo);
+				nr.setResult(clist);
+				break;
+			case 3:
+				List<Cityregion> rlist = userService.getCityregionByCityId(rankNo);
+				nr.setResult(rlist);
+				break;
+			default:
+				throw new OnlineverException(OnlineverException.REQUIRED_PARAMETER_MISSING);
+			}
+		}catch(OnlineverException e){
+			nr.setStatusCode(e.errorCode);
+			nr.setMsg(e.getMessage());
+		} catch (Exception e) {
 			nr.setMsg(e.getMessage());
 			nr.setStatusCode(OnlineverException.UNKNOWN_ERROR);
 		}

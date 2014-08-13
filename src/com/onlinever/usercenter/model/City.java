@@ -3,7 +3,10 @@ package com.onlinever.usercenter.model;
 import java.util.Date;
 import java.util.List;
 
+import com.onlinever.commons.cache.PK;
+
 public class City {
+	@PK
     private Integer id;
 
     private String name;

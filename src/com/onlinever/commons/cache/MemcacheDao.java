@@ -13,7 +13,7 @@ public class MemcacheDao {
 	private Logger log = Logger.getLogger(MemcacheDao.class);
 	@Autowired
 	protected MemcachedClient memcachedClient;
-	public final static String KEY_PREX = "ORDER_CENTER_";
+	public final static String KEY_PREX = "ONLINEVER_";
     
     public boolean set(String key, int exp, Object o){
     	try {

@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.onlinever.commons.cache.MemCaching;
 import com.onlinever.commons.datasource.UseSlave;
 import com.onlinever.commons.exception.OnlineverException;
 import com.onlinever.commons.util.Utilities;
@@ -21,7 +22,7 @@ import com.onlinever.usercenter.model.User;
 import com.onlinever.usercenter.service.IUserService;
 
 
-@Repository("UserService")
+@Repository("userService")
 public class UserServiceImpl implements IUserService {
 	private static Logger log = Logger.getLogger(UserServiceImpl.class);
 	
@@ -37,21 +38,27 @@ public class UserServiceImpl implements IUserService {
 	@Autowired 
 	private ProvinceMapper provinceMapper;
 	
+	@MemCaching
 	@UseSlave
+	@Override
 	public Province getProvince(Integer id){
 		return provinceMapper.selectByPrimaryKey(id);
 	}
-	
+	@MemCaching
 	@UseSlave
-	public List<Province> getAllProvince(){
+	@Override
+	public List<Province> getAllProvince(Integer memid){
 		return provinceMapper.getAllProvince();
 	}
 	
+	@MemCaching
 	@UseSlave
+	@Override
 	public List<City> getCityByProvinceId(Integer id){
 		return cityMapper.getCityByProvinceId(id);
 	}
 	
+	@MemCaching
 	@UseSlave
 	public List<Cityregion> getCityregionByCityId(Integer id){
 		return cityregionMapper.getCityregionsByCityId(id);
