@@ -1,7 +1,6 @@
 package com.onlinever.usercenter.dao;
 
-import java.util.List;
-
+import com.onlinever.commons.util.AreaList;
 import com.onlinever.usercenter.model.Province;
 
 public interface ProvinceMapper {
@@ -21,5 +20,5 @@ public interface ProvinceMapper {
      * 所有省份列表
      * @return
      */
-    List<Province> getAllProvince();
+    AreaList getAllProvince();
 }

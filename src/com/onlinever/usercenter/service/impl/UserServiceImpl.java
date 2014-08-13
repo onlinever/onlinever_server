@@ -1,7 +1,6 @@
 package com.onlinever.usercenter.service.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +9,12 @@ import org.springframework.stereotype.Repository;
 import com.onlinever.commons.cache.MemCaching;
 import com.onlinever.commons.datasource.UseSlave;
 import com.onlinever.commons.exception.OnlineverException;
+import com.onlinever.commons.util.AreaList;
 import com.onlinever.commons.util.Utilities;
 import com.onlinever.usercenter.dao.CityMapper;
 import com.onlinever.usercenter.dao.CityregionMapper;
 import com.onlinever.usercenter.dao.ProvinceMapper;
 import com.onlinever.usercenter.dao.UserMapper;
-import com.onlinever.usercenter.model.City;
-import com.onlinever.usercenter.model.Cityregion;
 import com.onlinever.usercenter.model.Province;
 import com.onlinever.usercenter.model.User;
 import com.onlinever.usercenter.service.IUserService;
@@ -47,20 +45,20 @@ public class UserServiceImpl implements IUserService {
 	@MemCaching
 	@UseSlave
 	@Override
-	public List<Province> getAllProvince(Integer memid){
+	public AreaList getAllProvince(Integer memid){
 		return provinceMapper.getAllProvince();
 	}
 	
 	@MemCaching
 	@UseSlave
 	@Override
-	public List<City> getCityByProvinceId(Integer id){
+	public AreaList getCityByProvinceId(Integer id){
 		return cityMapper.getCityByProvinceId(id);
 	}
 	
 	@MemCaching
 	@UseSlave
-	public List<Cityregion> getCityregionByCityId(Integer id){
+	public AreaList getCityregionByCityId(Integer id){
 		return cityregionMapper.getCityregionsByCityId(id);
 	}
 	/**

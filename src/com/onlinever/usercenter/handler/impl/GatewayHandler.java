@@ -1,7 +1,6 @@
 package com.onlinever.usercenter.handler.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,13 +11,11 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.onlinever.commons.exception.OnlineverException;
+import com.onlinever.commons.util.AreaList;
 import com.onlinever.commons.util.NormalReturn;
 import com.onlinever.commons.util.ResourceUtils;
 import com.onlinever.commons.util.Utilities;
 import com.onlinever.usercenter.handler.IGatewayHandler;
-import com.onlinever.usercenter.model.City;
-import com.onlinever.usercenter.model.Cityregion;
-import com.onlinever.usercenter.model.Province;
 import com.onlinever.usercenter.model.User;
 import com.onlinever.usercenter.service.IUserService;
 import com.onlinever.usercenter.task.SendEmailTask;
@@ -232,15 +229,15 @@ public class GatewayHandler implements IGatewayHandler{
 			int rankNo = json.getIntValue("rankNo");
 			switch (rank) {
 			case 1:
-				List<Province> plist = userService.getAllProvince(1);
+				AreaList plist = userService.getAllProvince(1);
 				nr.setResult(plist);
 				break;
 			case 2:
-				List<City> clist = userService.getCityByProvinceId(rankNo);
+				AreaList clist = userService.getCityByProvinceId(rankNo);
 				nr.setResult(clist);
 				break;
 			case 3:
-				List<Cityregion> rlist = userService.getCityregionByCityId(rankNo);
+				AreaList rlist = userService.getCityregionByCityId(rankNo);
 				nr.setResult(rlist);
 				break;
 			default:

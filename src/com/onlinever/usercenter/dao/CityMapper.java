@@ -2,6 +2,7 @@ package com.onlinever.usercenter.dao;
 
 import java.util.List;
 
+import com.onlinever.commons.util.AreaList;
 import com.onlinever.usercenter.model.City;
 
 public interface CityMapper {
@@ -21,5 +22,5 @@ public interface CityMapper {
      * @param provinceId
      * @return
      */
-    List<City> getCityByProvinceId(Integer provinceId);
+    AreaList getCityByProvinceId(Integer provinceId);
 }

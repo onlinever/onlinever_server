@@ -7,11 +7,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Title: memFlush<br>
- * Description: <br>
- * Copyright: Copyright (c) 2011	<br>
- * Create DateTime: 2011-10-28 下午01:49:42 <br>
- * @author wallce_xu
+ * MemFlush 刷新缓存
+ * @author Demon
+ * 
+ * @copyright (c) onlinever.com 2014
  */
 /* 
 * 元注解@Target,@Retention,@Documented,@Inherited 

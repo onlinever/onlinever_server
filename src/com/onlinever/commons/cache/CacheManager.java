@@ -28,8 +28,7 @@ import com.onlinever.commons.util.Utilities;
 
 /**
  * 
- * @author langke
- * @created 2012-8-28
+ * @author Demon
  *	如果参数是Map 取Map中的memKey作为key ，如果Map中没有memKey则取id作为key
  *	如果参数是基础类型java.lang.* 、数组、原始类型或基础类型: 所有参数相加作为key
  *  如果参数是实体类，取实体类中的PK,如果没有取实体类中id作为key
@@ -46,7 +45,7 @@ memcachedPre = api_review_
 memcachedExpiryTime=600000
 
  *  @version 0.1 入缓存走异步
- *  @lastmodify 2012-09-28
+ *  @lastmodify 2014-09-28
  */
 
 @Aspect
@@ -57,16 +56,12 @@ public class CacheManager {
 	@Autowired
 	private MemcacheDao memcacheDao;
 	
-//	private MessagePack msgPack = new MessagePack();
-	
 	@Value("#{config['use.memcache.formodel']}")
 	private boolean isUsedMemcached;
 
-	@SuppressWarnings("unused")
 	@Pointcut("@annotation (com.onlinever.commons.cache.MemCaching)")
     private void useCache() {}
 	
-	@SuppressWarnings("unused")
 	@Pointcut("@annotation (com.onlinever.commons.cache.MemFlush)")
 	private void flushCache(){}
 	
@@ -95,6 +90,7 @@ public class CacheManager {
 		ExecutorFactory.fixedExecutor.submit(cmd);
 	}
     
+	@SuppressWarnings("unchecked")
 	@Around("useCache()")
     public Object useMemcache(ProceedingJoinPoint joinPoint) throws Throwable{
     	Object[] args = joinPoint.getArgs();
@@ -115,11 +111,8 @@ public class CacheManager {
     	
     	//取缓存
     	String memKey = getCacheKey(signature.getReturnType(), modelKey);
-//		byte[] bytes = (byte[])memcacheDao.get(memKey);
 		Object value = memcacheDao.get(memKey);
 		if(value != null){
-//			msgPack.register(signature.getReturnType());
-//			Object value = msgPack.read(bytes, signature.getReturnType());
 			value = JSONObject.parseObject(value.toString(), signature.getReturnType());
 			log.info(String.format("get data from cache:%s costTime:%d", memKey, cost.cost()));
 			return value;
@@ -222,9 +215,6 @@ public class CacheManager {
 			@Override
 			public Boolean call() throws Exception {
 				return memcacheDao.set(key, timeout, JSONObject.toJSONString(obj, SerializerFeature.BrowserCompatible));
-//				msgPack.register(obj.getClass());
-//				byte[] bytes = msgPack.write(obj);
-//				return memcacheDao.set(key, timeout, bytes);
 			}
 		};
 		ExecutorFactory.fixedExecutor.submit(cmd);

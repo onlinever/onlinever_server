@@ -1,7 +1,6 @@
 package com.onlinever.usercenter.dao;
 
-import java.util.List;
-
+import com.onlinever.commons.util.AreaList;
 import com.onlinever.usercenter.model.Cityregion;
 
 public interface CityregionMapper {
@@ -17,5 +16,5 @@ public interface CityregionMapper {
 
     int updateByPrimaryKey(Cityregion record);
     
-    List<Cityregion> getCityregionsByCityId(Integer cityId);
+    AreaList getCityregionsByCityId(Integer cityId);
 }
