@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <title>register</title>
 </head>
+<link rel="stylesheet" type="text/css" href="/view/style/main.css" />
+<script type="text/javascript" src="/view/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/view/js/cityRegion.js"></script>
 <body>
 <form action="">
 用  户 名：<input type="text"/><br />
@@ -15,9 +18,9 @@
 真实姓名：<input type="text"><br>
 性       别：<input name="sex" type="radio" value="男" />男<input name="sex" type="radio" value="女" />女<br>
 生       日：<input type="date" /><br>
-所在城市：<select id="province"><option value="请选择省" /></select>
-		 <select id="city"><option value="请选择市" /></select>
-		 <select id="cityregion"><option value="请选择区/县" /></select>
+所在城市：<select id="province"><option value="0" >请选择省</option></select>
+		 <select id="city"><option value="0" >请选择市</option></select>
+		 <select id="cityregion"><option value="0" >请选择区/县</option></select>
 </form>
 </body>
 </html>

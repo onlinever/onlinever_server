@@ -1,7 +1,5 @@
 package com.onlinever.usercenter.dao;
 
-import java.util.List;
-
 import com.onlinever.commons.util.AreaList;
 import com.onlinever.usercenter.model.City;
 
